@@ -788,6 +788,73 @@ ULong arm64g_dirtyhelper_MRS_CNTFRQ_EL0 ( void )
 #  endif
 }
 
+/* CALLED FROM GENERATED CODE */
+/* DIRTY HELPER (non-referentially-transparent) */
+/* Horrible hack.  On non-arm64 platforms, return 0. */
+ULong arm64g_dirtyhelper_MRS_MIDR_EL1 ( void )
+{
+#  if defined(__aarch64__) && !defined(__arm__)
+   ULong w = 0x5555555555555555ULL; /* overwritten */
+   __asm__ __volatile__("mrs %0, midr_el1" : "=r"(w));
+   return w;
+#  else
+   return 0ULL;
+#  endif
+}
+
+/* CALLED FROM GENERATED CODE */
+/* DIRTY HELPER (non-referentially-transparent) */
+/* Horrible hack.  On non-arm64 platforms, return 0. */
+ULong arm64g_dirtyhelper_MRS_ID_AA64PFR0_EL1 ( void )
+{
+#  if defined(__aarch64__) && !defined(__arm__)
+   ULong w = 0x5555555555555555ULL; /* overwritten */
+   __asm__ __volatile__("mrs %0, id_aa64pfr0_el1" : "=r"(w));
+   return w;
+#  else
+   return 0ULL;
+#  endif
+}
+
+/* CALLED FROM GENERATED CODE */
+/* DIRTY HELPER (non-referentially-transparent) */
+/* Horrible hack.  On non-arm64 platforms, return 0. */
+ULong arm64g_dirtyhelper_MRS_ID_AA64MMFR0_EL1 ( void )
+{
+#  if defined(__aarch64__) && !defined(__arm__)
+   ULong w = 0x5555555555555555ULL; /* overwritten */
+   __asm__ __volatile__("mrs %0, id_aa64mmfr0_el1" : "=r"(w));
+   return w;
+#  else
+   return 0ULL;
+#  endif
+}
+
+/* CALLED FROM GENERATED CODE */
+/* DIRTY HELPER (non-referentially-transparent) */
+/* Horrible hack.  On non-arm64 platforms, return 0. */
+ULong arm64g_dirtyhelper_MRS_ID_AA64MMFR1_EL1 ( void )
+{
+#  if defined(__aarch64__) && !defined(__arm__)
+   ULong w = 0x5555555555555555ULL; /* overwritten */
+   __asm__ __volatile__("mrs %0, id_aa64mmfr1_el1" : "=r"(w));
+   return w;
+#  else
+   return 0ULL;
+#  endif
+}
+
+ULong arm64g_dirtyhelper_MRS_ID_AA64ISAR0_EL1 ( void )
+{
+#  if defined(__aarch64__) && !defined(__arm__)
+   ULong w = 0x5555555555555555ULL; /* overwritten */
+   __asm__ __volatile__("mrs %0, id_aa64isar0_el1" : "=r"(w));
+   return w;
+#  else
+   return 0ULL;
+#  endif
+}
+
 
 void arm64g_dirtyhelper_PMULLQ ( /*OUT*/V128* res, ULong arg1, ULong arg2 )
 {
