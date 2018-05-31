@@ -6939,7 +6939,7 @@ Bool dis_ARM64_branch_etc(/*MB_OUT*/DisResult* dres, UInt insn,
          half precision implementation because of missing support in the emulation.
 	 If no AdvSIMD and FP are implemented, we preserve the value */
 
-      Uint8 tmp = SLICE_UInt(val,16,9);
+      UInt tmp = SLICE_UInt(val,16,9);
 
       if (tmp & BITS8(0,0,0,1,0,0,0,1)) {
          putIReg64orZR(tt, mkU64(0x0));
