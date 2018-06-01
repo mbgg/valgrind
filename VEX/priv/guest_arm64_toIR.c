@@ -6940,18 +6940,19 @@ Bool dis_ARM64_branch_etc(/*MB_OUT*/DisResult* dres, UInt insn,
 	 If no AdvSIMD and FP are implemented, we preserve the value */
 
       UInt tmp = SLICE_UInt(val,16,9);
-      DIP("tmp %s for id_aa64pfr0_el1\n", nameIReg32orZR(tmp));
+      DIP("tmp %u for id_aa64pfr0_el1\n", tmp);
 
       if (tmp & BITS8(0,0,0,1,0,0,0,1)) {
-      DIP("tmp %s for id_aa64pfr0_el1\n", nameIReg32orZR(tmp));
+      DIP("tmp %u for id_aa64pfr0_el1\n", tmp);
          putIReg64orZR(tt, mkU64(0x0));
       } else if (tmp & BITS8(1,1,1,1,1,1,1,1)) {
-      DIP("tmp %s for id_aa64pfr0_el1\n", nameIReg32orZR(tmp));
+      DIP("tmp %u for id_aa64pfr0_el1\n", tmp);
          putIReg64orZR(tt, mkU64(0xFF<<16));
       } else {
-      DIP("tmp %s for id_aa64pfr0_el1\n", nameIReg32orZR(tmp));
+      DIP("tmp %u for id_aa64pfr0_el1\n", tmp);
          putIReg64orZR(tt, mkU64(0x0));
       }
+      DIP("mrs %u, id_aa64pfr0_el1 (FAKED)\n", tt);
       DIP("mrs %s, id_aa64pfr0_el1 (FAKED)\n", nameIReg32orZR(tt));
       return True;
    }
