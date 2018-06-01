@@ -6939,6 +6939,7 @@ Bool dis_ARM64_branch_etc(/*MB_OUT*/DisResult* dres, UInt insn,
          half precision implementation because of missing support in the emulation.
 	 If no AdvSIMD and FP are implemented, we preserve the value */
 
+      DIP("val original %u for id_aa64pfr0_el1\n", val);
       UInt tmp = SLICE_UInt(val,16,9);
       DIP("tmp %u for id_aa64pfr0_el1\n", tmp);
 
