@@ -810,26 +810,23 @@ ULong arm64g_dirtyhelper_MRS_ID_AA64PFR0_EL1 ( void )
 #  if defined(__aarch64__) && !defined(__arm__)
    ULong w = 0x5555555555555555ULL; /* overwritten */
    __asm__ __volatile__("mrs %0, id_aa64pfr0_el1" : "=r"(w));
-vex_printf("w 0x%016llx for id_aa64pfr0_el1\n", w);
+
+   /* If half-precision fp is present we fall back to normal
+      half precision implementation because of missing support in the emulation.
+      If no AdvSIMD and FP are implemented, we preserve the value */
    w = (w >> 16);
-vex_printf("w 0x%016llx for id_aa64pfr0_el1\n", w);
    w &= 0xff;
-vex_printf("w 0x%016llx for id_aa64pfr0_el1\n", w);
-    switch(w) {
-    case 0x0101:
-vex_printf("w1 0x%016llx for id_aa64pfr0_el1\n", w);
-      w = 0x0;
-      break;
-    case 0xff:
-vex_printf("w2 0x%016llx for id_aa64pfr0_el1\n", w);
-      w = (0xFF<<16);
-      break;
-    default:
-vex_printf("w3 0x%016llx for id_aa64pfr0_el1\n", w);
-      w = 0x0;
-      break;
-  }
-vex_printf("w final 0x%016llx for id_aa64pfr0_el1\n", w);
+   switch(w) {
+     case 0x11:
+       w = 0x0;
+       break;
+     case 0xff:
+       w = (0xFF<<16);
+       break;
+     default:
+       w = 0x0;
+       break;
+   }
 
    return w;
 #  else
@@ -859,6 +856,9 @@ ULong arm64g_dirtyhelper_MRS_ID_AA64MMFR1_EL1 ( void )
 #  if defined(__aarch64__) && !defined(__arm__)
    ULong w = 0x5555555555555555ULL; /* overwritten */
    __asm__ __volatile__("mrs %0, id_aa64mmfr1_el1" : "=r"(w));
+
+   /* Clear VH and HAFDBS bits */
+   w &= ~(0xF0F);
    return w;
 #  else
    return 0ULL;
@@ -870,6 +870,15 @@ ULong arm64g_dirtyhelper_MRS_ID_AA64ISAR0_EL1 ( void )
 #  if defined(__aarch64__) && !defined(__arm__)
    ULong w = 0x5555555555555555ULL; /* overwritten */
    __asm__ __volatile__("mrs %0, id_aa64isar0_el1" : "=r"(w));
+
+   /* Clear all but AES, SHA1 and SHA2 parts*/
+   w &= ~0xFFFF;
+   /* Degredate SHA2 from b0010 to b0001*/
+   if ( (w >> 12) & 0x2 ) {
+      w &= ~(0xF << 12);
+      w |= (0x1 << 12);
+   }
+
    return w;
 #  else
    return 0ULL;
