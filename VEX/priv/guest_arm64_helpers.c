@@ -810,6 +810,27 @@ ULong arm64g_dirtyhelper_MRS_ID_AA64PFR0_EL1 ( void )
 #  if defined(__aarch64__) && !defined(__arm__)
    ULong w = 0x5555555555555555ULL; /* overwritten */
    __asm__ __volatile__("mrs %0, id_aa64pfr0_el1" : "=r"(w));
+vex_printf("w 0x%016llx for id_aa64pfr0_el1\n", w);
+   w = (w >> 16);
+vex_printf("w 0x%016llx for id_aa64pfr0_el1\n", w);
+   w &= 0xff;
+vex_printf("w 0x%016llx for id_aa64pfr0_el1\n", w);
+    switch(w) {
+    case 0x0101:
+vex_printf("w1 0x%016llx for id_aa64pfr0_el1\n", w);
+      w = 0x0;
+      break;
+    case 0xff:
+vex_printf("w2 0x%016llx for id_aa64pfr0_el1\n", w);
+      w = (0xFF<<16);
+      break;
+    default:
+vex_printf("w3 0x%016llx for id_aa64pfr0_el1\n", w);
+      w = 0x0;
+      break;
+  }
+vex_printf("w final 0x%016llx for id_aa64pfr0_el1\n", w);
+
    return w;
 #  else
    return 0ULL;
